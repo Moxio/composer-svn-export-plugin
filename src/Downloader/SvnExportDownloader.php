@@ -26,22 +26,22 @@ class SvnExportDownloader implements DownloaderInterface {
 	public function __construct(IOInterface $io, Config $config, ProcessExecutor $process = null, Filesystem $filesystem = null) {
 		$this->io = $io;
 		$this->config = $config;
-		$this->process = $process;
-		$this->filesystem = $filesystem;
+		$this->process = $process ?: new ProcessExecutor($io);
+		$this->filesystem = $filesystem ?? new Filesystem($this->process);
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function getInstallationSource() {
-		return 'dist';
+		return 'source';
 	}
 
 	/**
 	 * {@inheritDoc}
 	 */
 	public function download(PackageInterface $package, $path, $output = true) {
-		if (!$package->getDistReference()) {
+		if (!$package->getSourceReference()) {
 			throw new \InvalidArgumentException('Package '.$package->getPrettyName().' is missing reference information');
 		}
 
@@ -50,7 +50,7 @@ class SvnExportDownloader implements DownloaderInterface {
 		}
 		$this->filesystem->emptyDirectory($path);
 
-		$urls = $package->getDistUrls();
+		$urls = $package->getSourceUrls();
 		while ($url = array_shift($urls)) {
 			try {
 				if (Filesystem::isLocalPath($url)) {
@@ -104,7 +104,7 @@ class SvnExportDownloader implements DownloaderInterface {
 	public function doDownload(PackageInterface $package, $path, $url)
 	{
 		SvnUtil::cleanEnv();
-		$ref = $package->getDistReference();
+		$ref = $package->getSourceReference();
 
 		$repo = $package->getRepository();
 		if ($repo instanceof VcsRepository) {
@@ -114,8 +114,8 @@ class SvnExportDownloader implements DownloaderInterface {
 			}
 		}
 
-		$this->io->writeError(" Checking out ".$package->getDistReference());
-		$this->execute($url, "svn co", sprintf("%s/%s", $url, $ref), null, $path);
+		$this->io->writeError(" Exporting ".$package->getSourceReference());
+		$this->execute($url, "svn export --force", sprintf("%s/%s", $url, $ref), null, $path);
 	}
 
 	/**
@@ -149,13 +149,13 @@ class SvnExportDownloader implements DownloaderInterface {
 	protected function execute($baseUrl, $command, $url, $cwd = null, $path = null) {
 		$util = new SvnUtil($baseUrl, $this->io, $this->config, $this->process);
 		$util->setCacheCredentials($this->cacheCredentials);
-		try {
+//		try {
 			return $util->execute($command, $url, $cwd, $path, $this->io->isVerbose());
-		} catch (\RuntimeException $e) {
-			throw new \RuntimeException(
-				'Package could not be downloaded, '.$e->getMessage()
-			);
-		}
+//		} catch (\RuntimeException $e) {
+//			throw new \RuntimeException(
+//				'Package could not be downloaded, '.$e->getMessage()
+//			);
+//		}
 	}
 
 	/**

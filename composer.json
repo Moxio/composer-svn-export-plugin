@@ -13,11 +13,17 @@
         "composer-plugin-api": "^1.1"
     },
     "require-dev": {
-        "composer/composer": "^1.6"
+        "composer/composer": "^1.6",
+        "phpunit/phpunit": "^6.5.7"
     },
     "autoload": {
         "psr-4": {
             "Moxio\\Composer\\SvnExportPlugin\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Moxio\\Composer\\SvnExportPlugin\\Test\\": "test"
         }
     },
     "extra": {

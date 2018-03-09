@@ -10,7 +10,6 @@ use Moxio\Composer\SvnExportPlugin\Repository\VcsRepository;
 
 class SvnExportPlugin implements PluginInterface {
 	public function activate(Composer $composer, IOInterface $io) {
-		$composer->getRepositoryManager()->setRepositoryClass('svn', VcsRepository::class);
-		$composer->getDownloadManager()->setDownloader('svn-export', new SvnExportDownloader($io, $composer->getConfig()));
+		$composer->getDownloadManager()->setDownloader('svn', new SvnExportDownloader($io, $composer->getConfig()));
 	}
 }
