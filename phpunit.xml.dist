@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<phpunit bootstrap="./vendor/autoload.php">
+    <testsuites>
+        <testsuite name="Unit test suite">
+            <directory>test</directory>
+        </testsuite>
+    </testsuites>
+
+    <filter>
+        <whitelist>
+            <directory suffix=".php">vendor</directory>
+        </whitelist>
+    </filter>
+</phpunit>
