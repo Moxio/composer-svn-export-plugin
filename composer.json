@@ -1,0 +1,26 @@
+{
+    "name": "moxio/composer-svn-export-plugin",
+    "type": "composer-plugin",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Merijn Wijngaard",
+            "email": "merijn.wijngaard@moxio.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "composer-plugin-api": "^1.1"
+    },
+    "require-dev": {
+        "composer/composer": "^1.6"
+    },
+    "autoload": {
+        "psr-4": {
+            "Moxio\\Composer\\SvnExportPlugin\\": "src"
+        }
+    },
+    "extra": {
+        "class": "Moxio\\Composer\\SvnExportPlugin\\SvnExportPlugin"
+    }
+}
