@@ -23,7 +23,7 @@ class SvnExportDownloaderTest extends TestCase {
 	/** @var SvnExportDownloader */
 	private $downloader;
 
-	protected function setUp() {
+	protected function setUp(): void {
 		$this->io = new BufferIO();
 		$this->config = new Config(false);
 		$this->process = $this->createMock(ProcessExecutor::class);

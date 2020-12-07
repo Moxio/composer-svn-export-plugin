@@ -1,0 +1,48 @@
+name: Continuous Integration
+
+on:
+  pull_request:
+  push:
+
+jobs:
+  phpunit:
+    name: PHPUnit
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        php-version:
+          - 7.3
+          - 7.4
+          - 8.0
+        deps:
+          - normal
+        include:
+          - deps: low
+            php-version: 7.3
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v2
+
+      - name: Setup PHP with composer v1
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: ${{ matrix.php-version }}
+          tools: composer:v1
+
+      - name: Cache dependencies installed with composer
+        uses: actions/cache@v2
+        with:
+          path: ~/.composer/cache
+          key: php-${{ matrix.php-version }}-composer-${{ hashFiles('composer.json') }}
+          restore-keys: php-${{ matrix.php-version }}-composer-
+
+      - name: Install dependencies with composer
+        run: composer update --no-interaction --no-progress --no-suggest --prefer-dist
+        if: ${{ matrix.deps == 'normal' }}
+
+      - name: Install lowest possible dependencies with composer
+        run: composer update --no-interaction --no-progress --no-suggest --prefer-dist --prefer-lowest
+        if: ${{ matrix.deps == 'low' }}
+
+      - name: Run PHPUnit
+        run: vendor/bin/phpunit
