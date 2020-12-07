@@ -1,6 +1,6 @@
 <?php
 
-namespace Moxio\Composer\SvnExportPlugin\Download;
+namespace Moxio\Composer\SvnExportPlugin\Test\Downloader;
 
 use Composer\Config;
 use Composer\IO\BufferIO;
