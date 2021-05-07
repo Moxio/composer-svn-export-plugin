@@ -13,7 +13,7 @@
         "composer-plugin-api": "^1.1"
     },
     "require-dev": {
-        "composer/composer": "^1.6",
+        "composer/composer": "^1.10.22",
         "phpunit/phpunit": "^9.5.0"
     },
     "autoload": {
