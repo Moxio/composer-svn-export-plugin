@@ -2,6 +2,7 @@
     "name": "moxio/composer-svn-export-plugin",
     "type": "composer-plugin",
     "license": "MIT",
+    "abandoned": true,
     "authors": [
         {
             "name": "Merijn Wijngaard",
