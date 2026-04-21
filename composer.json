@@ -28,5 +28,13 @@
     },
     "extra": {
         "class": "Moxio\\Composer\\SvnExportPlugin\\SvnExportPlugin"
+    },
+    "config": {
+        "audit": {
+            "ignore": {
+                "PKSA-t5r2-p5q9-mtpn": "Not using the perforce driver",
+                "PKSA-6bp1-9hfj-2cgv": "Not using the perforce driver"
+            }
+        }
     }
 }
